@@ -22,8 +22,11 @@ model = make_model()
 
 load_weights(model, '../yolo-tiny.weights')
 
-output_video = '../video result.mp4'
-clip = VideoFileClip("../project_video.mp4")
+# output_video = '../video result.mp4'
+# clip = VideoFileClip("../project_video.mp4")
+
+output_video = '../Motorcycle Crash Captured on Dashcam result.mp4'
+clip = VideoFileClip("../Motorcycle Crash Captured on Dashcam.mp4")
 
 lane_clip = clip.fl_image(frame_func)
 lane_clip.write_videofile(output_video, audio=False)
