@@ -140,3 +140,4 @@ ENV/
 
 .idea/
 CarND-Vehicle-Detection.iml
+.weights
