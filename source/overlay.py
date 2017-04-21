@@ -7,10 +7,10 @@ def draw_box(boxes, im, crop_dim):
     [ymin, ymax] = crop_dim[1]
     for b in boxes:
         h, w, _ = imgcv.shape
-        left = int((b.x - b.w / 2.) * w)
-        right = int((b.x + b.w / 2.) * w)
-        top = int((b.y - b.h / 2.) * h)
-        bot = int((b.y + b.h / 2.) * h)
+        left = int((b.x - b.width / 2.) * w)
+        right = int((b.x + b.width / 2.) * w)
+        top = int((b.y - b.height / 2.) * h)
+        bot = int((b.y + b.height / 2.) * h)
         left = int(left * (xmax - xmin) / w + xmin)
         right = int(right * (xmax - xmin) / w + xmin)
         top = int(top * (ymax - ymin) / h + ymin)
