@@ -1,7 +1,7 @@
 from source.box import Box
 
 
-def yolo_net_out_to_car_boxes(net_out, threshold=0.2, sqrt=1.8, C=20, B=2, S=7):
+def yolo_net_out_to_car_boxes(net_out, threshold=0.17, sqrt=1.8, C=20, B=2, S=7):
     class_num = 6
     boxes = []
     SS = S * S  # number of grid cells

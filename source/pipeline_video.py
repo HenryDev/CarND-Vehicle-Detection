@@ -14,7 +14,7 @@ def frame_func(image):
     batch = 2 * (batch / 255.) - 1
     batch = np.expand_dims(batch, axis=0)
     out = model.predict(batch)
-    boxes = yolo_net_out_to_car_boxes(out[0], threshold=0.17)
+    boxes = yolo_net_out_to_car_boxes(out[0])
     return draw_box(boxes, image, [[500, 1280], [300, 650]])
 
 
