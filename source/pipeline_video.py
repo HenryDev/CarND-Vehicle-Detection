@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
-from source.converter import yolo_net_out_to_car_boxes
+from source.converter import convert_prediction_to_box
 from source.model import make_model, load_weights, make_better_model
 from source.overlay import draw_box
 
@@ -14,7 +14,7 @@ def frame_func(image):
     batch = 2 * (batch / 255.) - 1
     batch = np.expand_dims(batch, axis=0)
     out = model.predict(batch)
-    boxes = yolo_net_out_to_car_boxes(out[0])
+    boxes = convert_prediction_to_box(out[0])
     return draw_box(boxes, image, [[500, 1280], [300, 650]])
 
 

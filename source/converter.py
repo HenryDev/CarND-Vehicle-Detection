@@ -1,33 +1,34 @@
 from source.box import Box
 
 
-def yolo_net_out_to_car_boxes(net_out, threshold=0.17, sqrt=1.8, C=20, B=2, S=7):
+def convert_prediction_to_box(prediction, threshold=0.17, sqrt=1.8, number_of_classes=20, number_of_boxes=2,
+                              grid_size=7):
     class_num = 6
     boxes = []
-    SS = S * S  # number of grid cells
-    prob_size = SS * C  # class probabilities
-    conf_size = SS * B  # confidences for each grid cell
+    number_of_grid_cells = grid_size * grid_size
+    class_probabilities = number_of_grid_cells * number_of_classes
+    cell_confidence = number_of_grid_cells * number_of_boxes
 
-    probs = net_out[0: prob_size]
-    confs = net_out[prob_size: (prob_size + conf_size)]
-    cords = net_out[(prob_size + conf_size):]
-    probs = probs.reshape([SS, C])
-    confs = confs.reshape([SS, B])
-    cords = cords.reshape([SS, B, 4])
+    probabilities = prediction[0: class_probabilities]
+    confidences = prediction[class_probabilities: (class_probabilities + cell_confidence)]
+    coordinates = prediction[(class_probabilities + cell_confidence):]
+    probabilities = probabilities.reshape([number_of_grid_cells, number_of_classes])
+    confidences = confidences.reshape([number_of_grid_cells, number_of_boxes])
+    coordinates = coordinates.reshape([number_of_grid_cells, number_of_boxes, 4])
 
-    for grid in range(SS):
-        for b in range(B):
-            bx = Box()
-            bx.c = confs[grid, b]
-            bx.x = (cords[grid, b, 0] + grid % S) / S
-            bx.y = (cords[grid, b, 1] + grid // S) / S
-            bx.w = cords[grid, b, 2] ** sqrt
-            bx.h = cords[grid, b, 3] ** sqrt
-            p = probs[grid, :] * bx.c
+    for grid in range(number_of_grid_cells):
+        for b in range(number_of_boxes):
+            box = Box()
+            box.confidence = confidences[grid, b]
+            box.x = (coordinates[grid, b, 0] + grid % grid_size) / grid_size
+            box.y = (coordinates[grid, b, 1] + grid // grid_size) / grid_size
+            box.width = coordinates[grid, b, 2] ** sqrt
+            box.height = coordinates[grid, b, 3] ** sqrt
+            p = probabilities[grid, :] * box.confidence
 
             if p[class_num] >= threshold:
-                bx.prob = p[class_num]
-                boxes.append(bx)
+                box.probability = p[class_num]
+                boxes.append(box)
 
     # combine boxes that are overlap
     boxes.sort(key=lambda b: b.prob, reverse=True)
