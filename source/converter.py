@@ -39,7 +39,8 @@ def combine_overlap_boxes(boxes):
     boxes.sort(key=lambda b: b.probability, reverse=True)
     for i in range(len(boxes)):
         box = boxes[i]
-        if box.probability == 0: continue
+        if box.probability == 0:
+            continue
         for j in range(i + 1, len(boxes)):
             next_box = boxes[j]
             if intersection_over_union(box, next_box) >= .4:
@@ -55,7 +56,8 @@ def intersection_over_union(a, b):
 def box_intersection(a, b):
     width = overlap(a.x, a.width, b.x, b.width)
     height = overlap(a.y, a.height, b.y, b.height)
-    if width < 0 or height < 0: return 0;
+    if width < 0 or height < 0:
+        return 0
     area = width * height
     return area
 
