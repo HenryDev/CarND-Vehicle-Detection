@@ -18,7 +18,7 @@ def frame_func(image):
     return draw_box(boxes, image, [[500, 1280], [300, 650]])
 
 
-model = make_better_model()
+model = make_model()
 
 load_weights(model, '../yolo-tiny.weights')
 
