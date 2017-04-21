@@ -1,20 +1,19 @@
 import cv2
-import numpy as np
+import numpy
 from moviepy.video.io.VideoFileClip import VideoFileClip
-
 from source.converter import convert_prediction_to_box
-from source.model import make_model, load_weights, make_better_model
+from source.model import make_model, load_weights
 from source.overlay import draw_box
 
 
 def frame_func(image):
     crop = image[300:650, 500:, :]
     resized = cv2.resize(crop, (448, 448))
-    batch = np.array([resized[:, :, 0], resized[:, :, 1], resized[:, :, 2]])
+    batch = numpy.array([resized[:, :, 0], resized[:, :, 1], resized[:, :, 2]])
     batch = 2 * (batch / 255.) - 1
-    batch = np.expand_dims(batch, axis=0)
-    out = model.predict(batch)
-    boxes = convert_prediction_to_box(out[0])
+    batch = numpy.expand_dims(batch, axis=0)
+    prediction = model.predict(batch)
+    boxes = convert_prediction_to_box(prediction[0])
     return draw_box(boxes, image)
 
 
