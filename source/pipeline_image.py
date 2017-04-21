@@ -16,5 +16,5 @@ batch = 2 * (batch / 255.) - 1
 prediction = model.predict(batch)
 for i in range(len(batch)):
     boxes = convert_prediction_to_box(prediction[i])
-    box = draw_box(boxes, images[i], [[500, 1280], [300, 650]])
+    box = draw_box(boxes, images[i])
     plt.imsave('../output_images/test' + str(i) + ' result.jpg', box)

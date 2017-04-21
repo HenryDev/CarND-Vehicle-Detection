@@ -1,25 +1,23 @@
 import cv2
 
 
-def draw_box(boxes, im, crop_dim):
-    imgcv = im
-    [xmin, xmax] = crop_dim[0]
-    [ymin, ymax] = crop_dim[1]
-    for b in boxes:
-        h, w, _ = imgcv.shape
-        left = int((b.x - b.width / 2.) * w)
-        right = int((b.x + b.width / 2.) * w)
-        top = int((b.y - b.height / 2.) * h)
-        bot = int((b.y + b.height / 2.) * h)
-        left = int(left * (xmax - xmin) / w + xmin)
-        right = int(right * (xmax - xmin) / w + xmin)
-        top = int(top * (ymax - ymin) / h + ymin)
-        bot = int(bot * (ymax - ymin) / h + ymin)
+def draw_box(boxes, image):
+    [x_min, x_max] = [500, 1280]
+    [y_min, y_max] = [300, 650]
+    for box in boxes:
+        height, width, _ = image.shape
+        left = int((box.x - box.width / 2.) * width)
+        right = int((box.x + box.width / 2.) * width)
+        top = int((box.y - box.height / 2.) * height)
+        bottom = int((box.y + box.height / 2.) * height)
+        left = int(left * (x_max - x_min) / width + x_min)
+        right = int(right * (x_max - x_min) / width + x_min)
+        top = int(top * (y_max - y_min) / height + y_min)
+        bottom = int(bottom * (y_max - y_min) / height + y_min)
 
         if left < 0:  left = 0
-        if right > w - 1: right = w - 1
+        if right > width - 1: right = width - 1
         if top < 0:   top = 0
-        if bot > h - 1:   bot = h - 1
-        cv2.rectangle(imgcv, (left, top), (right, bot), (255, 0, 0), 5)
-
-    return imgcv
+        if bottom > height - 1:   bottom = height - 1
+        cv2.rectangle(image, (left, top), (right, bottom), (255, 0, 0), 5)
+    return image

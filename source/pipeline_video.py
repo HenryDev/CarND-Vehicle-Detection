@@ -15,7 +15,7 @@ def frame_func(image):
     batch = np.expand_dims(batch, axis=0)
     out = model.predict(batch)
     boxes = convert_prediction_to_box(out[0])
-    return draw_box(boxes, image, [[500, 1280], [300, 650]])
+    return draw_box(boxes, image)
 
 
 model = make_model()
