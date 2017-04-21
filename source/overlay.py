@@ -15,9 +15,13 @@ def draw_box(boxes, image):
         top = int(top * (y_max - y_min) / height + y_min)
         bottom = int(bottom * (y_max - y_min) / height + y_min)
 
-        if left < 0:  left = 0
-        if right > width - 1: right = width - 1
-        if top < 0:   top = 0
-        if bottom > height - 1:   bottom = height - 1
+        if left < 0:
+            left = 0
+        if right > width - 1:
+            right = width - 1
+        if top < 0:
+            top = 0
+        if bottom > height - 1:
+            bottom = height - 1
         cv2.rectangle(image, (left, top), (right, bottom), (255, 0, 0), 5)
     return image
